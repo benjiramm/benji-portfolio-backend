@@ -12,7 +12,6 @@ import {
 import { AuthGuard } from 'src/auth/auth.guard';
 import { TechService } from './tech.service';
 
-@UseGuards(AuthGuard)
 @Controller('tech')
 export class TechController {
   constructor(private readonly techService: TechService) {}

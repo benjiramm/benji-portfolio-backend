@@ -2,7 +2,7 @@ export interface Section {
   id?: number;
   type?: SectionType;
   content?: string;
-  projectId?: string;
+  project?: number;
 }
 
 export enum SectionType {

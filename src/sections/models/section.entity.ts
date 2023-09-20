@@ -7,12 +7,12 @@ export class SectionEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ default: '' })
+  @Column({ default: SectionType.text })
   type: SectionType;
 
   @Column({ default: '' })
   content: string;
 
   @ManyToOne(() => ProjectEntity, (project) => project.body)
-  projectId: string;
+  project: number;
 }

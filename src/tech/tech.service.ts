@@ -16,7 +16,11 @@ export class TechService {
   ) {}
 
   async getTech(id: number) {
-    return await this.techRepository.findOneBy({ id });
+    const foundTech = await this.techRepository.findOneBy({ id });
+    if (!foundTech) {
+      throw new NotFoundException('Tech with this ID does not exist');
+    }
+    return foundTech;
   }
 
   async getAllTech() {
@@ -38,9 +42,6 @@ export class TechService {
 
   async editTech(id: number, tech: Tech) {
     const fountTech = await this.getTech(id);
-    if (!fountTech) {
-      throw new NotFoundException('tech doesnt exist');
-    }
 
     const newTech: Tech = {
       description: tech.description ? tech.description : fountTech.description,
@@ -53,6 +54,8 @@ export class TechService {
   }
 
   async deleteTech(id: number) {
-    return await this.techRepository.delete({ id });
+    const foundTech = await this.getTech(id);
+    await this.techRepository.delete({ id });
+    return foundTech;
   }
 }

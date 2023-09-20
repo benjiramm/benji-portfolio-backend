@@ -37,6 +37,6 @@ export class ProjectEntity {
   })
   tech?: TechEntity[];
 
-  @OneToMany(() => SectionEntity, (section) => section.projectId)
+  @OneToMany(() => SectionEntity, (section) => section.project)
   body: SectionEntity[];
 }
