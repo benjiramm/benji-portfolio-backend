@@ -1,8 +1,10 @@
+import { Project } from 'src/projects/models/project.interface';
+
 export interface Section {
   id?: number;
   type?: SectionType;
   content?: string;
-  project?: number;
+  project?: Project;
 }
 
 export enum SectionType {

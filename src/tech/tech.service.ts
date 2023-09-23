@@ -43,11 +43,15 @@ export class TechService {
   async editTech(id: number, tech: Tech) {
     const fountTech = await this.getTech(id);
 
+    console.log('found tech', fountTech);
+
     const newTech: Tech = {
       description: tech.description ? tech.description : fountTech.description,
       image: tech.image ? tech.image : fountTech.image,
       name: tech.name ? tech.name : fountTech.name,
+      projects: tech.projects ? tech.projects : fountTech.projects,
     };
+
     await this.techRepository.update({ id }, newTech);
 
     return await this.getTech(id);

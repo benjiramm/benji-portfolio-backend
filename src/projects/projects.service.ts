@@ -7,12 +7,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from './models/project.entity';
 import { Repository } from 'typeorm';
 import { Project } from './models/project.interface';
+import { SectionEntity } from 'src/sections/models/section.entity';
 
 @Injectable()
 export class ProjectsService {
   constructor(
     @InjectRepository(ProjectEntity)
     private readonly projectRepository: Repository<ProjectEntity>,
+    @InjectRepository(SectionEntity)
+    private readonly sectionRepository: Repository<SectionEntity>,
   ) {}
 
   // TODO - Inject the tech repository to add and remove tech from a certain project
@@ -44,15 +47,23 @@ export class ProjectsService {
   async editProject(id: number, project: Project) {
     const foundProject = await this.getProjectById(id);
 
-    const newProject: Project = {
-      title: project?.title ? project.title : foundProject.title,
-      body: project?.body ? project.body : foundProject.body,
-      date: project?.date ? project.date : foundProject.date,
-      tech: project?.tech ? project.tech : foundProject.tech,
-    };
+    const { title, date, body, tech } = project;
 
-    await this.projectRepository.update(id, newProject);
-    return await this.getProjectById(id);
+    if (body) {
+      // remove existing sections
+      foundProject.body = [];
+
+      for (const section of body) {
+        const newSection = new SectionEntity();
+        newSection.type = section.type;
+        newSection.content = section.content;
+        newSection.project = foundProject;
+        await this.sectionRepository.save(newSection);
+        foundProject.body.push(newSection);
+      }
+    }
+
+    return await this.projectRepository.save(foundProject);
   }
 
   async deleteProject(id: number) {

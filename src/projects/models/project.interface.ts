@@ -1,3 +1,4 @@
+import { Section } from 'src/sections/models/section.interface';
 import { Tech } from 'src/tech/models/tech.interface';
 
 export interface Project {
@@ -6,5 +7,5 @@ export interface Project {
   date?: Date;
   createdAt?: Date;
   tech?: Tech[];
-  body?: Project[];
+  body?: Section[];
 }

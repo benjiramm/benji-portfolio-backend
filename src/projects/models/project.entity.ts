@@ -3,6 +3,7 @@ import { TechEntity } from 'src/tech/models/tech.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
@@ -21,22 +22,16 @@ export class ProjectEntity {
   date: Date;
 
   @ManyToMany(() => TechEntity, {
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION',
+    eager: true,
+    cascade: true,
   })
-  @JoinTable({
-    name: 'project_tech',
-    joinColumn: {
-      name: 'project_id',
-      referencedColumnName: 'id',
-    },
-    inverseJoinColumn: {
-      name: 'tech_id',
-      referencedColumnName: 'id',
-    },
-  })
+  @JoinTable()
   tech?: TechEntity[];
 
-  @OneToMany(() => SectionEntity, (section) => section.project)
+  @OneToMany(() => SectionEntity, (section: SectionEntity) => section.project, {
+    eager: true,
+    cascade: true,
+  })
+  @JoinColumn()
   body: SectionEntity[];
 }

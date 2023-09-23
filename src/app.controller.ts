@@ -3,9 +3,11 @@ import { AppService } from './app.service';
 import { AuthGuard } from './auth/auth.guard';
 import { Request } from 'express';
 import { UsersService } from './users/users.service';
+import { ApiTags } from '@nestjs/swagger';
 const admin = require('./config/firebase.config');
 
 @UseGuards(AuthGuard)
+@ApiTags('Authentication')
 @Controller()
 export class AppController {
   constructor(

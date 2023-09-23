@@ -15,9 +15,6 @@ export class TechEntity {
   @Column({ default: '' })
   image: string;
 
-  @ManyToMany(() => ProjectEntity, (project) => project.tech, {
-    onDelete: 'NO ACTION',
-    onUpdate: 'NO ACTION',
-  })
+  @ManyToMany(() => ProjectEntity, (project) => project.tech)
   projects?: ProjectEntity[];
 }

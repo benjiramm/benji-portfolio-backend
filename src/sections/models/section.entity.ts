@@ -13,6 +13,6 @@ export class SectionEntity {
   @Column({ default: '' })
   content: string;
 
-  @ManyToOne(() => ProjectEntity, (project) => project.body)
-  project: number;
+  @ManyToOne(() => ProjectEntity, (project: ProjectEntity) => project.body)
+  project: ProjectEntity;
 }
